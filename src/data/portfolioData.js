@@ -72,7 +72,7 @@ export const projectGroups = [
       'Storage: MySQL-backed batch lifecycle data across production, costs, and revenue records.',
     ],
     technologies: ['PHP', 'MySQL', 'XAMPP', 'Tailwind CSS'],
-    link: 'https://broilertrack.42web.io/',
+    link: 'https://broilertrack.site.je/',
   },
 ]
 

@@ -1,6 +1,27 @@
+import { useRef } from 'react'
 import SectionHeading from './SectionHeading'
 
 function Contact() {
+  const nextUrlRef = useRef(null)
+  const submittedAtRef = useRef(null)
+  const submittedTzRef = useRef(null)
+
+  const handleSubmit = () => {
+    if (nextUrlRef.current) {
+      nextUrlRef.current.value = `${window.location.origin}/contact-success.html`
+    }
+    if (submittedAtRef.current) {
+      submittedAtRef.current.value = new Intl.DateTimeFormat('en-GB', {
+        dateStyle: 'full',
+        timeStyle: 'medium',
+        timeZone: 'Africa/Lusaka',
+      }).format(new Date())
+    }
+    if (submittedTzRef.current) {
+      submittedTzRef.current.value = 'Africa/Lusaka (CAT, UTC+02:00)'
+    }
+  }
+
   return (
     <section id="contact" className="py-16 sm:py-20" aria-labelledby="contact-title">
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -8,7 +29,7 @@ function Contact() {
           titleId="contact-title"
           eyebrow="Contact"
           title="Let’s discuss your next systems project"
-          description="Use the contact details below or submit the form. This form is UI-only for static deployment and does not send data."
+          description="Use the contact details below or submit the form to send a message directly to my inbox."
         />
         <div className="mt-10 grid gap-6 lg:grid-cols-5">
           <article className="rounded-2xl border border-slate-700 bg-slate-900 p-6 lg:col-span-2">
@@ -50,22 +71,35 @@ function Contact() {
               </li>
             </ul>
           </article>
-          <form className="rounded-2xl border border-slate-700 bg-slate-900 p-6 lg:col-span-3" aria-label="Contact form">
+          <form
+            className="rounded-2xl border border-slate-700 bg-slate-900 p-6 lg:col-span-3"
+            aria-label="Contact form"
+            action="https://formsubmit.co/kundananjisimukonda@gmail.com"
+            method="POST"
+            onSubmit={handleSubmit}
+          >
+            <input type="hidden" name="_subject" value="New portfolio contact message" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input ref={nextUrlRef} type="hidden" name="_next" value="" />
+            <input ref={submittedAtRef} type="hidden" name="submitted_at_local" value="" />
+            <input ref={submittedTzRef} type="hidden" name="submitted_timezone" value="" />
+            <input type="text" name="_honey" className="hidden" tabIndex="-1" autoComplete="off" />
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="text-sm text-slate-200" htmlFor="name">
                 Name
-                <input id="name" name="name" type="text" className="mt-1 w-full rounded-md border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none ring-cyan-300/50 transition focus-visible:ring" />
+                <input id="name" name="name" type="text" required className="mt-1 w-full rounded-md border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none ring-cyan-300/50 transition focus-visible:ring" />
               </label>
               <label className="text-sm text-slate-200" htmlFor="email">
                 Email
-                <input id="email" name="email" type="email" className="mt-1 w-full rounded-md border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none ring-cyan-300/50 transition focus-visible:ring" />
+                <input id="email" name="email" type="email" required className="mt-1 w-full rounded-md border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none ring-cyan-300/50 transition focus-visible:ring" />
               </label>
             </div>
             <label className="mt-4 block text-sm text-slate-200" htmlFor="message">
               Message
-              <textarea id="message" name="message" rows="5" className="mt-1 w-full rounded-md border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none ring-cyan-300/50 transition focus-visible:ring" />
+              <textarea id="message" name="message" rows="5" required className="mt-1 w-full rounded-md border border-slate-600 bg-slate-950 px-3 py-2 text-sm text-slate-100 outline-none ring-cyan-300/50 transition focus-visible:ring" />
             </label>
-            <button type="button" className="mt-4 rounded-md bg-cyan-400 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300">
+            <button type="submit" className="mt-4 rounded-md bg-cyan-400 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-300">
               Send Message
             </button>
           </form>
